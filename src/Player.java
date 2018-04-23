@@ -1,9 +1,10 @@
 import java.awt.*;
 
-public class Player {
-    public Vector2D position;
-    private PolygonRenderer renderer;
-    private PlayerMove playerMove;
+public class Player extends GameObject{
+
+
+    public PlayerMove playerMove;
+    public PlayerShoot playerShoot;
 
     public Player() {
         this.position = new Vector2D();
@@ -13,14 +14,21 @@ public class Player {
                 new Vector2D(20, 8)
         );
         this.playerMove = new PlayerMove();
+        this.playerShoot = new PlayerShoot();
     }
 
+    @Override
     public void run() {
+        super.run();
+        this.playerShoot.run(this);
+        this.playerShoot.shoots.forEach(shoot -> shoot.run());
         this.playerMove.run(this);
-        this.renderer.angle = this.playerMove.angle;
+        ((PolygonRenderer)this.renderer).angle = this.playerMove.angle;
     }
 
+    @Override
     public void render(Graphics graphics) {
-        this.renderer.render(graphics, this.position);
+        super.render(graphics);
+        this.playerShoot.shoots.forEach(shoot -> shoot.render(graphics));
     }
 }

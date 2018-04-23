@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Backgroundrenderer {
+public class Backgroundrenderer implements Renderer{
     private Color color;
     private int width;
     private int height;
@@ -13,9 +13,9 @@ public class Backgroundrenderer {
 
     }
 
-    public void renderer(Graphics graphics,Vector2D position){
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect((int)position.x,(int)position.y,1024,600);
+    @Override
+    public void render(Graphics graphics, Vector2D position) {
+        graphics.setColor(this.color);
+        graphics.fillRect((int)position.x,(int)position.y,this.width,this.height);
     }
-
 }

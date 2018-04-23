@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class PolygonRenderer {
+public class PolygonRenderer implements Renderer{
     private Color color;
     private Polygon polygon;
     private List<Vector2D> vertices;
@@ -14,7 +14,7 @@ public class PolygonRenderer {
         this.vertices = Arrays.asList(vertices);
         this.vertices.forEach(vector2D -> polygon.addPoint((int)vector2D.x,(int)vector2D.y));
     }
-
+    @Override
     public void render(Graphics graphics, Vector2D position){
         this.update(position);
         graphics.setColor(this.color);
@@ -27,7 +27,7 @@ public class PolygonRenderer {
                 .stream()
                 .reduce(new Vector2D(), (v1,v2) -> v1.add(v2))
                 .multiply(1.0f / (float) this.vertices.size());
-        Vector2D translate = position.subtract(center);
+        Vector2D translate = position.subtract(center.rotate(angle));
         this.vertices
                 .stream()
                 .map(vector2D -> vector2D.rotate(angle))

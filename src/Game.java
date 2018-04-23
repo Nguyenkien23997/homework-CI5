@@ -11,10 +11,12 @@ import java.util.Random;
 public class Game extends JPanel {
 
     private List<Star> stars;
+
     private BufferedImage backBuffered;
     private Background background;
     private Graphics graphics;
     private Random random;
+
     private int count = 0;
     private int countEnemy = 0;
     private List<Enemy> enemies;
@@ -23,6 +25,7 @@ public class Game extends JPanel {
     public Game() {
         this.setSize(1024, 600);
         this.setupBackBuffered();
+
         this.stars = new ArrayList<>();
         this.random = new Random();
         this.background = new Background();
@@ -59,11 +62,13 @@ public class Game extends JPanel {
         this.runEnemies();
     }
 
+
+
     private void createEnemy() {
         if (this.countEnemy == 50) {
             Enemy enemy = new Enemy();
             enemy.position.set(this.random.nextInt(1024),this.random.nextInt(600));
-            enemy.velocity.set(this.random.nextInt(2)+1,0);
+
             this.enemies.add(enemy);
             this.countEnemy = 0;
         } else {
