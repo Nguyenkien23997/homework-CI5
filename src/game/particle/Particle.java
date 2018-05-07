@@ -22,8 +22,8 @@ public class Particle extends GameObject {
         super.run();
         this.position.addUp(this.velocity);
         if (this.renderer instanceof ImageRenderer) {
-            int width = ((ImageRenderer)this.renderer).width;
-            int height = ((ImageRenderer)this.renderer).height;
+            int width = ((ImageRenderer) this.renderer).width;
+            int height = ((ImageRenderer) this.renderer).height;
             if (width == 0 || height == 0) {
                 this.isAlive = false;
             }
@@ -48,17 +48,17 @@ public class Particle extends GameObject {
     }
 
     public static void explostion(Vector2D position, Vector2D velocity, int width, int height, Color color, int timeIntervalCreate, int timeIntervalChangeSize) {
-        for (int i = 0; i < 4; i++) {
-            for (double j= 0; j < 7; j++){
-                Particle particle = GameObjectManager.instance.recycle(Particle.class);
-                ImageRenderer imageRenderer = new ImageRenderer("resources/images/circle.png",width,height,color,true,timeIntervalChangeSize);
-                imageRenderer.deltaSize = 1;
-                particle.renderer = imageRenderer;
-                particle.position.set(position);
-                particle.velocity.set(new Vector2D(10,7).rotate(j*50));
-                frameCounter.reset();
-            }
-            timeIntervalCreate -= timeIntervalCreate;
+
+        for (double j = 0; j < 7; j++) {
+            Particle particle = GameObjectManager.instance.recycle(Particle.class);
+            ImageRenderer imageRenderer = new ImageRenderer("resources/images/circle.png", width, height, color, true, timeIntervalChangeSize);
+            imageRenderer.deltaSize = 1;
+            particle.renderer = imageRenderer;
+            particle.position.set(position);
+            particle.velocity.set(new Vector2D(10, 7).rotate(j * 50));
+            frameCounter.reset();
         }
+        
+
     }
 }
