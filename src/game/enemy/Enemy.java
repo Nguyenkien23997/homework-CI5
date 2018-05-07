@@ -1,41 +1,44 @@
 package game.enemy;
 
 import base.GameObject;
-import base.GameObjectManager;
-import game.player.Player;
+import game.particle.Particle;
 import physic.BoxCollider;
+import physic.HitObject;
+import physic.PhysicBody;
 import renderer.ImageRenderer;
 
-public class Enemy extends GameObject {
-    public EnemyShoot enemyShoot;
+import java.awt.*;
+import java.util.Random;
+
+public class Enemy extends GameObject implements PhysicBody, HitObject {
     public EnemyMove enemyMove;
     public BoxCollider boxCollider;
+    public Random random;
 
     public Enemy() {
-        this.enemyShoot = new EnemyShoot();
         this.enemyMove = new EnemyMove();
-        this.renderer = new ImageRenderer("resources/images/circle.png", 20, 20);
+        this.renderer = new ImageRenderer("resources/images/circle.png", 20, 20, Color.YELLOW);
         this.boxCollider = new BoxCollider(20, 20);
     }
 
     @Override
     public void run() {
         super.run();
-        this.enemyShoot.run(this);
         this.enemyMove.run(this);
         this.boxCollider.position.set(this.position);
-        this.Collision();
+
     }
 
-    private void Collision() {
-        Player player = GameObjectManager.instance.Collision(this.boxCollider);
-        if(player != null){
-            player.getHit();
-            this.getHit();
+    @Override
+    public void getHit(GameObject gameObject) {
+        this.isAlive = false;
+        if (this.isAlive == false){
+            Particle.explostion(this.position,this.enemyMove.velocity.normalize().multiply(-50.0f),20,20,Color.WHITE,20,20);
         }
     }
 
-    public void getHit(){
-        this.isAlive = false;
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
     }
 }

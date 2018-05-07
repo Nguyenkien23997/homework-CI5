@@ -16,7 +16,7 @@ public class PolygonRenderer implements Renderer {
         this.color = color;
         this.polygon = new Polygon();
         this.vertices = Arrays.asList(vertices);
-        this.vertices.forEach(vector2D -> polygon.addPoint((int)vector2D.x, (int)vector2D.y));
+        this.vertices.forEach(vector2D -> polygon.addPoint((int) vector2D.x, (int) vector2D.y));
     }
 
     @Override
@@ -31,13 +31,13 @@ public class PolygonRenderer implements Renderer {
         Vector2D center = this.vertices
                 .stream()
                 .reduce(new Vector2D(), (v1, v2) -> v1.add(v2))//bn trong list dc cong het lai
-                .multiply(1.0f / (float)this.vertices.size());
+                .multiply(1.0f / (float) this.vertices.size());
 
         Vector2D translate = position.subtract(center.rotate(angle));
         this.vertices
                 .stream()
                 .map(vector2D -> vector2D.rotate(angle)) // xoay dinh
                 .map(vector2D -> vector2D.add(translate)) // duyet tat ca phan tu -> vector se dc cong them mot vector khac
-                .forEach(vector2D -> polygon.addPoint((int)vector2D.x, (int)vector2D.y));
+                .forEach(vector2D -> polygon.addPoint((int) vector2D.x, (int) vector2D.y));
     }
 }

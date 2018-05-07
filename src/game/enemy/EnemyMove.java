@@ -6,7 +6,7 @@ import game.player.Player;
 
 public class EnemyMove {
 
-    private Vector2D velocity;
+    public Vector2D velocity;
 
     public EnemyMove() {
         this.velocity = new Vector2D();

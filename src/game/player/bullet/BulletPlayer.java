@@ -4,18 +4,30 @@ import base.GameObject;
 import base.GameObjectManager;
 import base.Vector2D;
 import game.enemy.Enemy;
+import game.player.Player;
+import javafx.scene.shape.Circle;
 import physic.BoxCollider;
+import physic.HitObject;
+import physic.PhysicBody;
+import physic.RunHitObject;
 import renderer.ImageRenderer;
 
-public class BulletPlayer extends GameObject {
+import java.awt.*;
+
+public class BulletPlayer extends GameObject implements PhysicBody, HitObject {
 
     public Vector2D velocity;
     public BoxCollider boxCollider;
+    private RunHitObject runHitObject;
 
+    // constructor
     public BulletPlayer() {
         this.velocity = new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/star.png", 5, 5);
+        this.renderer = new ImageRenderer("resources/images/star.png", 5, 5, Color.CYAN);
         this.boxCollider = new BoxCollider(5, 5);
+        this.runHitObject = new RunHitObject(
+                Enemy.class
+        );
     }
 
     @Override
@@ -23,20 +35,16 @@ public class BulletPlayer extends GameObject {
         super.run();
         this.position.addUp(this.velocity);
         this.boxCollider.position.set(this.position);
-        this.checkCollision();
+        this.runHitObject.run(this);
     }
 
-    private void checkCollision() {
-        Enemy enemy = GameObjectManager.instance.checkCollision(this.boxCollider);
-        if (enemy != null) {
-            enemy.getHit();
-            this.getHit();
-        }
-    }
-
-    private void getHit() {
-        System.out.println("Hit Enemy");
+    @Override
+    public void getHit(GameObject gameObject) {
         this.isAlive = false;
     }
 
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
+    }
 }

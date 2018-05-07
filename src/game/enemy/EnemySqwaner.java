@@ -16,9 +16,8 @@ public class EnemySqwaner extends GameObject {
     public void run() {
         super.run();
         if (this.frameCounter.run()) {
-            Enemy enemy = new Enemy();
+            Enemy enemy = GameObjectManager.instance.recycle(Enemy.class);
             enemy.position.set(new Vector2D(this.random.nextInt(1024), this.random.nextInt(600)));
-            GameObjectManager.instance.add(enemy);
             this.frameCounter.reset();
         }
     }
